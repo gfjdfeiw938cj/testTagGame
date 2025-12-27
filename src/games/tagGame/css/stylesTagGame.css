@@ -1,0 +1,415 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 40px;
+  width: 100%;
+  min-height: 100vh;
+}
+                                  /* Меню выбора размера карты  */
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  transition: opacity 0.5s ease-out; /* opacity видимость */
+}
+
+.menu-container.menu-hidden {
+  display: none;
+  opacity: 0;
+}
+
+.panel-container {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 40px 60px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  max-width: 450px;
+  width: 90%;
+}
+
+.game-title {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+}
+                                    /* Кнопки главного меню */
+.game-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-btn {
+  padding: 15px 30px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+  background-color: #764ba2;
+  transform: translateY(-2px);
+}
+
+.menu-btn:active {
+  transform: translateY(0);
+  opacity: 0.9;
+}
+                                        /* Меню уровней */
+.level-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.level-btn {
+  padding: 14px 25px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.level-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.level-btn:active {
+  transform: translateY(0);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px;
+  color: #f44336;
+  text-decoration: none;
+  font-size: 1.1rem;
+  text-align: center;
+  transition: color 0.3s ease, transform 0.2s ease;
+  border-radius: 8px;
+}
+
+.back-link:hover {
+  color: #d32f2f; /* Более тёмный оттенок красного */
+  transform: scale(1.05); /* Лёгкое увеличение при наведении */
+  background-color: #ffecee;
+}
+
+.back-link img:hover {
+  opacity: 0.9;
+  filter: brightness(90%);
+}
+
+.back-link:hover {
+  color: #d32f2f;
+  text-decoration: underline;
+}
+/* Кнопка «Назад» */
+.back-btn {
+  background-color: #f44336 !important;
+  margin-top: 20px;
+}
+
+.back-btn:hover {
+  background-color: #d32f2f !important;
+}
+
+@media (max-width: 600px) {
+  .menu-container {
+    padding: 30px 40px;
+  }
+
+  .game-title {
+    font-size: 2rem;
+  }
+
+  .menu-btn,
+  .level-btn {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+}
+                                       /* Игра пятнашки. Ген. карты */
+[class^="box-"] {
+  background-color: skyblue;
+  display: grid;
+  place-items: center;
+  border: 1px solid #000;;
+} 
+
+/* * */
+.div-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+}
+/* * */
+.div-container.div-container-visible {
+  display: flex;
+}
+
+.container {
+  display: grid;
+  font-size: 40px;
+  height: 450px; 
+  width: 450px;
+  grid-auto-columns: 1fr; /*автоматически определяем размер тех столбцов которые не были указанны явно*/
+  grid-auto-rows: 1fr; 
+  justify-content: center;
+  align-content : center;
+}  
+
+[data-emptyСell = "false"]{
+  background-color: rgb(101, 145, 32);
+}
+/* * */
+.blackEmptyCage {
+  background-color: #000
+}
+
+.hidden {
+  display: none;  /* Делает элемент невидимым*/
+}
+                                   /* Ссылка назад в меню */
+.icon-Menu {
+  display: none;
+}
+
+.icon-Menu.icon-hidden {
+  display: block;
+  width: auto;
+  height: auto;
+  text-align: center;
+}
+                                /* Стилизация модального окна */
+#modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000
+}
+/* * */
+#modal-window {
+  position: relative;
+  top: 30%;
+  width: 50%;
+  margin: 0 auto;
+  padding: 5px 20px 20px;
+  background-color: #f8f6f6;
+  text-align: center;
+  z-index: 1001;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+button {
+  min-width: 100px;
+  border: 1px solid lightgray;
+  padding: 15px;
+  background-color: #fff;
+  font-size: 20pt;
+  border-radius: 15px;
+  opacity: 0.7;
+}
+
+.modal-content {
+  margin: 20px 0;
+  line-height: 1.8;
+  color: #333;
+  font-size: 18px;
+}
+                                      /* отсчёт времени и ходов  */
+.container-сountdown-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 38px;
+}
+
+.couter-Game{
+  margin-right: 20px;
+}
+                                /* Сообщение о воспроизведение игры  */
+.container-blink-none {
+  display: none;
+}
+
+.container-blink-none.container-blink-block{
+  display: block;
+}
+
+.blink-playingGame {
+  animation: smooth-blink 1.5s ease-in-out infinite;
+}
+
+@keyframes smooth-blink {
+  0% { opacity: 1; }
+  40% { opacity: 0.3; }
+  60% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+                              /* Кнопки: остановить воспроизведение и приостановить воспроизведение.  */
+.btn-stop-recording {
+  background-color: #e53935; /* насыщенный красный */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(229, 57, 53, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-stop-recording:hover {
+  background-color: #c62828; /* темнее при наведении */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.4);
+}
+
+.btn-stop-recording:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(229, 57, 53, 0.5);
+}
+
+.btn-pause-recording {
+  margin-left: 5px;
+  background-color: #424242; /* тёмно‑серый */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(66, 66, 66, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-pause-recording:hover {
+  background-color: #212121; /* почти чёрный */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(66, 66, 66, 0.4);
+}
+
+.btn-pause-recording:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(66, 66, 66, 0.5);
+}
+
+
+                                      /* Кнопка начать с начала  */
+.reset {
+  font-size: 18px;
+  height: 60px;
+  line-height: 60px; /* вертикальное выравнивание текста */
+  padding: 0 30px;
+  text-align: center;
+  background: linear-gradient(145deg, #658597 0%, #4a6b7b 100%);
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.reset:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 12px rgba(0, 0, 0, 0.15),
+    inset 0 -4px 6px rgba(0, 0, 0, 0.25);
+}
+
+.reset:active {
+  transform: translateY(0);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.reset-victory {
+  font-size: 36px;
+  height: 65px;
+  text-align: center;
+  background-color: #207e18;
+  cursor: pointer;
+  border: none;
+  box-shadow: 1px 1px 7px 1px rgba(69, 102, 76, 0.65);
+  margin: 0 auto;
+}
+
+/* #resetNewMap{
+  margin-left: 10px;
+} */
+
+.panel {
+  display: flex;
+  margin-top: 20px;
+}
+                                          /* Стрелки с лева и права */
+.arrow-diag {
+  width: 40px;
+  height: 40px;
+  border-top: 8px solid #0097fc;
+  border-left: 8px solid #0097fc;
+  margin: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.left {
+  transform: rotate(-45deg);
+}
+
+.right {
+  transform: rotate(135deg);
+}
+
+.arrow-diag:hover {
+  border-top: 8px solid #006ab1;
+  border-left: 8px solid #006ab1;
+  opacity: 0.9;
+}
+
+.arrow-btn:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
